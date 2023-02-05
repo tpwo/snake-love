@@ -39,7 +39,7 @@ risk of instant collision with the snake after the game starts
 
 * Added option to mute/unmute music using M key
 
-* Added option to switch drawing of grid lines using L key
+* Added option to switch drawing of grid lines using G key
 
 * Lives are now displayed using heart images
 

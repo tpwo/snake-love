@@ -88,13 +88,10 @@ function love.load()
 end
 
 function love.keypressed(key)
-
-    -- quit game at any time with ESC key
     if key == "escape" or key == 'q' then
         love.event.quit()
     end
 
-    -- mute/unmute music at any time using M key
     if key == 'm' then
         if sounds.musicSound:isPlaying() then
             sounds.musicSound:pause()
@@ -103,8 +100,7 @@ function love.keypressed(key)
         end
     end
 
-    -- turn on/off drawing grid lines using L key
-    if key == 'l' then
+    if key == 'g' then
         if not isGameStart then
             if isDrawLines then
                 isDrawLines = false
@@ -114,19 +110,17 @@ function love.keypressed(key)
         end
     end
 
-    -- handling of snake movement
-    -- KNOWN BUG: too quick player input could
-    -- result in player death as snakeMoving is
-    -- updating a couple of times between drawing
-    -- new frames
+    -- KNOWN BUG: too quick player input could result in player death as
+    -- snakeMoving is updating a couple of times between drawing new
+    -- frames
     if not isGameOver and not isNewLevel then
-        if key == "left" and snakeMoving ~= RIGHT then
+        if key == "left" or key == "h" and snakeMoving ~= RIGHT then
             snakeMoving = LEFT
-        elseif key == "right" and snakeMoving ~= LEFT then
+        elseif key == "right" or key == "l" and snakeMoving ~= LEFT then
             snakeMoving = RIGHT
-        elseif key == "up" and snakeMoving ~= DOWN then
+        elseif key == "up" or key == "k" and snakeMoving ~= DOWN then
             snakeMoving = UP
-        elseif key == "down" and snakeMoving ~= UP then
+        elseif key == "down" or key == "j" and snakeMoving ~= UP then
             snakeMoving = DOWN
         end
     end
@@ -336,7 +330,7 @@ function drawStartScreen()
     love.graphics.setFont(fonts.normalFont)
 
     lower_offset = 168
-    love.graphics.printf("Press L to switch drawing lines", 0,
+    love.graphics.printf("Press G to hide or show grid lines", 0,
                          WINDOW_HEIGHT / 2 + lower_offset, WINDOW_WIDTH, "center")
     love.graphics.printf("Press M to mute music", 0,
                          WINDOW_HEIGHT / 2 + lower_offset + 24, WINDOW_WIDTH, "center")
