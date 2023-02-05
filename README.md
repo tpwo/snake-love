@@ -2,6 +2,8 @@
 
 Snake game made in Lua [LÖVE framework](https://love2d.org/)
 
+![](img/game.png)
+
 The whole project is based on CS50 youtube videos:
 
 * [part 1](https://youtu.be/ld_xcXdRez4)
