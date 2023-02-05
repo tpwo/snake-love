@@ -15,11 +15,20 @@ TILE_SNAKE_TURN_2 = 5
 TILE_SNAKE_TURN_3 = 6
 TILE_SNAKE_TURN_4 = 7
 TILE_APPLE = 8
+
 TILE_STONE_1 = 9
 TILE_STONE_2 = 10
 TILE_STONE_3 = 11
 TILE_STONE_4 = 12
 TILE_STONE_5 = 13
+
+local STONES = {
+    TILE_STONE_1,
+    TILE_STONE_2,
+    TILE_STONE_3,
+    TILE_STONE_4,
+    TILE_STONE_5,
+}
 
 -- snake moving directions
 RIGHT = 1
@@ -193,11 +202,7 @@ function love.update(dt)
             -- if there is collision with stone or rest of the snake
             if tileGrid[snakeY][snakeX] == TILE_SNAKE_BODY or
                tileGrid[snakeY][snakeX] == TILE_SNAKE_TAIL or
-               tileGrid[snakeY][snakeX] == TILE_STONE_1 or
-               tileGrid[snakeY][snakeX] == TILE_STONE_2 or
-               tileGrid[snakeY][snakeX] == TILE_STONE_3 or
-               tileGrid[snakeY][snakeX] == TILE_STONE_4 or
-               tileGrid[snakeY][snakeX] == TILE_STONE_5 then
+               inList(tileGrid[snakeY][snakeX], STONES) then
 
                 -- player loses one live
                 lives = lives - 1
@@ -478,20 +483,6 @@ function drawSnake(image, x, y, movementDirection)
     end
 end
 
-
-function pickRandomStone()
-    -- picks one of the n graphic variants of a stone obstacle
-    local STONES = {
-        TILE_STONE_1,
-        TILE_STONE_2,
-        TILE_STONE_3,
-        TILE_STONE_4,
-        TILE_STONE_5,
-    }
-    return STONES[math.random(#STONES)]
-end
-
-
 function generateObstacle(obstacle, isStone)
     -- generate static element in random location (apple or stone)
     local isStone = isStone or false -- default value is false
@@ -546,7 +537,7 @@ function initializeGrid()
     end
 
     for i = 1, math.min(50, level * 2) do
-        generateObstacle(pickRandomStone(), true)
+        generateObstacle(STONES[math.random(#STONES)], true)
     end
 
     generateObstacle(TILE_APPLE)
