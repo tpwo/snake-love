@@ -110,17 +110,22 @@ function love.keypressed(key)
         end
     end
 
+    leftKeys = {"left", "a", "h"}
+    rightKeys = {"right", "d", "l"}
+    upKeys = {"up", "w", "k"}
+    downKeys = {"down", "s", "j"}
+
     -- KNOWN BUG: too quick player input could result in player death as
     -- snakeMoving is updating a couple of times between drawing new
     -- frames
     if not isGameOver and not isNewLevel then
-        if key == "left" or key == "h" and snakeMoving ~= RIGHT then
+        if inList(key, leftKeys) and snakeMoving ~= RIGHT then
             snakeMoving = LEFT
-        elseif key == "right" or key == "l" and snakeMoving ~= LEFT then
+        elseif inList(key, rightKeys) and snakeMoving ~= LEFT then
             snakeMoving = RIGHT
-        elseif key == "up" or key == "k" and snakeMoving ~= DOWN then
+        elseif inList(key, upKeys) and snakeMoving ~= DOWN then
             snakeMoving = UP
-        elseif key == "down" or key == "j" and snakeMoving ~= UP then
+        elseif inList(key, downKeys) and snakeMoving ~= UP then
             snakeMoving = DOWN
         end
     end
@@ -316,6 +321,15 @@ function love.draw()
             drawGameOver()
         end
     end
+end
+
+function inList(n, list)
+    for _, val in ipairs(list) do
+        if val == n then
+            return true
+        end
+    end
+    return false
 end
 
 function drawStartScreen()
