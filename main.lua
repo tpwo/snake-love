@@ -90,7 +90,7 @@ end
 function love.keypressed(key)
 
     -- quit game at any time with ESC key
-    if key == "escape" then
+    if key == "escape" or key == 'q' then
         love.event.quit()
     end
 
@@ -325,19 +325,23 @@ function love.draw()
 end
 
 function drawStartScreen()
-    -- display game start screen
     love.graphics.setFont(fonts.hugeFont)
-    love.graphics.printf("SNAKE", 0, WINDOW_HEIGHT / 2 - 64, WINDOW_WIDTH, "center")
+    upper_offset = 64
+    love.graphics.printf("SNAKE", 0, WINDOW_HEIGHT / 2 - upper_offset, WINDOW_WIDTH, "center")
 
     love.graphics.setFont(fonts.largeFont)
     love.graphics.printf("Press Enter to start", 0,
-                         WINDOW_HEIGHT / 2 + 64, WINDOW_WIDTH, "center")
+                         WINDOW_HEIGHT / 2 + upper_offset, WINDOW_WIDTH, "center")
 
     love.graphics.setFont(fonts.normalFont)
+
+    lower_offset = 168
     love.graphics.printf("Press L to switch drawing lines", 0,
-                         WINDOW_HEIGHT / 2 + 168, WINDOW_WIDTH, "center")
+                         WINDOW_HEIGHT / 2 + lower_offset, WINDOW_WIDTH, "center")
     love.graphics.printf("Press M to mute music", 0,
-                         WINDOW_HEIGHT / 2 + 192, WINDOW_WIDTH, "center")
+                         WINDOW_HEIGHT / 2 + lower_offset + 24, WINDOW_WIDTH, "center")
+    love.graphics.printf("Press Esc or Q to quit", 0,
+                         WINDOW_HEIGHT / 2 + lower_offset + 48, WINDOW_WIDTH, "center")
 end
 
 function drawGameOver()
