@@ -50,11 +50,3 @@ to make the level transition less frequent
 
 * Formula for snake speed was updated, so it moves faster at the
 beginning, but doesn't accelerate that much in the higher levels
-
-## Knows bugs
-
-Too quick player input could result in player death as `snakeMoving` is
-updating a couple of times between snake moves one tile, e.g.
-`snakeMoving` could change its value from `LEFT` to `UP` and finally to
-`RIGHT` before snake even moves by one tile which will result in instant
-collision with the rest of snake body.

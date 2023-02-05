@@ -63,6 +63,7 @@ local rotationGrid = {}
 local snakeX, snakeY
 local snakeMoving = RIGHT
 local snakeTimer = 0 -- provides discrete snake movement
+local snakeMoved = false -- to handle too fast player input
 
 -- snake data structure
 local snakeTiles = {}
@@ -124,18 +125,19 @@ function love.keypressed(key)
     upKeys = {"up", "w", "k"}
     downKeys = {"down", "s", "j"}
 
-    -- KNOWN BUG: too quick player input could result in player death as
-    -- snakeMoving is updating a couple of times between drawing new
-    -- frames
-    if not isGameOver and not isNewLevel then
+    if not (isGameOver or isNewLevel or snakeMoved) then
         if inList(key, leftKeys) and snakeMoving ~= RIGHT then
             snakeMoving = LEFT
+            snakeMoved = true
         elseif inList(key, rightKeys) and snakeMoving ~= LEFT then
             snakeMoving = RIGHT
+            snakeMoved = true
         elseif inList(key, upKeys) and snakeMoving ~= DOWN then
             snakeMoving = UP
+            snakeMoved = true
         elseif inList(key, downKeys) and snakeMoving ~= UP then
             snakeMoving = DOWN
+            snakeMoved = true
         end
     end
 
@@ -170,6 +172,7 @@ function love.update(dt)
         -- while blocking the opposite move
 
         if snakeTimer >= SNAKE_SPEED then
+            snakeMoved = false
             if snakeMoving == UP then
                 if snakeY <= 1 then
                     snakeY = MAX_TILES_Y
