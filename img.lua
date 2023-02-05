@@ -25,5 +25,5 @@ return {
     stone2Img = genQuad(1, 3),
     stone3Img = genQuad(2, 3),
     stone4Img = genQuad(1, 4),
-    stone5Img = genQuad(2, 4), 
+    stone5Img = genQuad(2, 4),
 }

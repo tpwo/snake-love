@@ -88,7 +88,7 @@ function love.load()
 end
 
 function love.keypressed(key)
-    
+
     -- quit game at any time with ESC key
     if key == "escape" then
         love.event.quit()
@@ -113,7 +113,7 @@ function love.keypressed(key)
             end
         end
     end
-    
+
     -- handling of snake movement
     -- KNOWN BUG: too quick player input could
     -- result in player death as snakeMoving is
@@ -199,11 +199,11 @@ function love.update(dt)
                tileGrid[snakeY][snakeX] == TILE_STONE_3 or
                tileGrid[snakeY][snakeX] == TILE_STONE_4 or
                tileGrid[snakeY][snakeX] == TILE_STONE_5 then
-                
+
                 -- player loses one live
                 lives = lives - 1
 
-                
+
                 if lives > 0 then
                     -- death sequence
                     isNewLevel = true
@@ -222,7 +222,7 @@ function love.update(dt)
 
                 score = score + 1
                 sounds.appleSound:play()
-                
+
                 -- function changed to cubic so levels are now changed
                 -- less freuqently which was really annoying
                 -- OLD ONE: if score > level * math.ceil(level / 2) * 3 then
@@ -248,7 +248,7 @@ function love.update(dt)
 
                 -- generate a new apple
                 generateObstacle(TILE_APPLE)
-            
+
             -- otherwise, pop the snake tail and earse from the grid
             else
                 local tail = snakeTiles[#snakeTiles]
@@ -303,7 +303,7 @@ function love.update(dt)
                 tileGrid[snakeY][snakeX] = TILE_SNAKE_HEAD
                 rotationGrid[snakeY][snakeX] = snakeMoving
             end
-            
+
             snakeTimer = 0
         end
     end
@@ -332,7 +332,7 @@ function drawStartScreen()
     love.graphics.setFont(fonts.largeFont)
     love.graphics.printf("Press Enter to start", 0,
                          WINDOW_HEIGHT / 2 + 64, WINDOW_WIDTH, "center")
-                         
+
     love.graphics.setFont(fonts.normalFont)
     love.graphics.printf("Press L to switch drawing lines", 0,
                          WINDOW_HEIGHT / 2 + 168, WINDOW_WIDTH, "center")
@@ -414,7 +414,7 @@ function drawGrid()
 
             elseif tileGrid[y][x] == TILE_STONE_2 then
                 drawTileImage(img.stone2Img, x, y)
-            
+
             elseif tileGrid[y][x] == TILE_STONE_3 then
                 drawTileImage(img.stone3Img, x, y)
 
@@ -509,7 +509,7 @@ function generateObstacle(obstacle, isStone)
         if isStone then obstacleY = math.random(2, MAX_TILES_Y)
         else obstacleY = math.random(MAX_TILES_Y)
         end
-        
+
     until tileGrid[obstacleY][obstacleX] == TILE_EMPTY
 
     tileGrid[obstacleY][obstacleX] = obstacle
@@ -518,7 +518,7 @@ end
 function clearSnake()
     -- clear tileGrid from old snake after losing a live
     -- note that it's not needed when moving to a new level,
-    -- because it also initializes grid which clears the old snake aswell
+    -- because it also initializes grid which clears the old snake as well
     for k, elem in pairs(snakeTiles) do
         if k > 1 then tileGrid[elem[2]][elem[1]] = TILE_EMPTY end
     end
