@@ -33,9 +33,9 @@ local level = 1
 SNAKE_SPEED = math.max(0.02, 0.1 - (level * 0.005))
 
 -- load modules
-local Img = require "Img"
-local Sounds = require "Sounds"
-local Fonts = require "Fonts"
+local Img = require "img"
+local Sounds = require "sounds"
+local Fonts = require "fonts"
 
 -- declare booleans
 local isGameOver = false
