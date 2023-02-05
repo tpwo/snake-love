@@ -1,5 +1,3 @@
--- Fonts.lua
-
 return {
     normalFont = love.graphics.newFont(16),
     largeFont = love.graphics.newFont(32),

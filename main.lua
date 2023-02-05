@@ -222,30 +222,16 @@ function love.update(dt)
                 score = score + 1
                 sounds.appleSound:play()
 
-                -- function changed to cubic so levels are now changed
-                -- less freuqently which was really annoying
-                -- OLD ONE: if score > level * math.ceil(level / 2) * 3 then
                 if score > (level + 1) * (level + 1) * level + 5 then
-                    -- promote player to the next level
                     level = level + 1
                     sounds.newLevelSound:play()
-                    isNewLevel = true -- display new level screen
-
-                    -- increase snake speed
+                    isNewLevel = true
                     SNAKE_SPEED = math.max(0.01, 0.11 - (level * 0.01))
-
-                    -- generate a new grid with more stones
                     initializeGrid()
-
-                    -- clear rotation grid
                     initializeRotationGrid()
-
-
                     initializeSnake()
                     return
                 end
-
-                -- generate a new apple
                 generateObstacle(TILE_APPLE)
 
             -- otherwise, pop the snake tail and earse from the grid
@@ -353,7 +339,6 @@ function drawStartScreen()
 end
 
 function drawGameOver()
-    -- display game over screen
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(fonts.hugeFont)
     love.graphics.printf("GAME OVER", 0, WINDOW_HEIGHT / 2 - 64, WINDOW_WIDTH, "center")
@@ -363,7 +348,6 @@ function drawGameOver()
 end
 
 function drawNewLevel()
-    -- display game over screen
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(fonts.hugeFont)
     love.graphics.printf("LEVEL " .. tostring(level), 0,
@@ -379,8 +363,6 @@ function drawStats()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print("Score: " .. tostring(score), 10, 10)
     love.graphics.printf("Level: " .. tostring(level), -10, 10, WINDOW_WIDTH, "right")
-    -- lives are now displayed using images
-    -- love.graphics.printf("Lives: " .. tostring(lives), 0, 10, WINDOW_WIDTH, "center")
 
     -- draw lost lives images
     for i = 0, 2 do
@@ -551,6 +533,7 @@ function initializeSnake()
 end
 
 function initializeGrid()
+    -- initialize grid with stones and apple
     tileGrid = {}
 
     for y = 1, MAX_TILES_Y do
@@ -562,7 +545,6 @@ function initializeGrid()
         end
     end
 
-    -- generate a n number of stones depending on level value
     for i = 1, math.min(50, level * 2) do
         generateObstacle(pickRandomStone(), true)
     end

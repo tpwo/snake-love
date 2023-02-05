@@ -1,6 +1,3 @@
--- Img.lua
-
--- load spriteSheet
 local spriteSheet = love.graphics.newImage("tiles.png")
 
 local function genQuad(x, y, quadSize)

@@ -1,5 +1,3 @@
--- Sounds.lua
-
 return {
     appleSound = love.audio.newSource("sound/apple.wav", "static"),
     newLevelSound = love.audio.newSource("sound/newlevel.wav", "static"),
