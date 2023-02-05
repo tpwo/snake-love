@@ -52,7 +52,7 @@ local isGameStart = true
 local isNewLevel = true
 local isDrawLines = true
 
-local score = 0
+local totalScore = 0
 local lives = 3
 
 -- declare grids
@@ -149,7 +149,7 @@ function love.keypressed(key)
 
     if isGameOver or isGameStart then
         if key == "enter" or key == "return" then
-            score = 0
+            totalScore = 0
             level = 1
             lives = 3
             initializeGrid()
@@ -225,12 +225,17 @@ function love.update(dt)
 
             -- if snake is eating an apple
             elseif tileGrid[snakeY][snakeX] == TILE_APPLE then
-                -- increase score and generate a new apple
+                -- increase total score and generate a new apple
 
-                score = score + 1
+                baseScore = 10
+                totalScore = totalScore + baseScore
                 sounds.appleSound:play()
 
-                if score > (level + 1) * (level + 1) * level + 5 then
+                function scoreForNextLevel(level)
+                    return baseScore * ((level + 1) * (level + 1) * level + 5)
+                end
+
+                if totalScore > scoreForNextLevel(level) then
                     level = level + 1
                     sounds.newLevelSound:play()
                     isNewLevel = true
@@ -366,10 +371,10 @@ function drawNewLevel()
 end
 
 function drawStats()
-    -- display score, level and remaining lives
+    -- display total score, level and remaining lives
     love.graphics.setFont(fonts.largeFont)
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.print("Score: " .. tostring(score), 10, 10)
+    love.graphics.print("Score: " .. tostring(totalScore), 10, 10)
     love.graphics.printf("Level: " .. tostring(level), -10, 10, WINDOW_WIDTH, "right")
 
     -- draw lost lives images
