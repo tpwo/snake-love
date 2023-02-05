@@ -33,9 +33,9 @@ local level = 1
 SNAKE_SPEED = math.max(0.02, 0.1 - (level * 0.005))
 
 -- load modules
-local Img = require "img"
-local Sounds = require "sounds"
-local Fonts = require "fonts"
+local img = require "img"
+local sounds = require "sounds"
+local fonts = require "fonts"
 
 -- declare booleans
 local isGameOver = false
@@ -70,11 +70,11 @@ function love.load()
     math.randomseed(os.time())
 
     -- tune the audio
-    Sounds.musicSound:setLooping(true)
-    Sounds.musicSound:setVolume(0.1)
-    Sounds.musicSound:play()
-    Sounds.deathSound:setVolume(0.65)
-    Sounds.gameOverSound:setVolume(0.65)
+    sounds.musicSound:setLooping(true)
+    sounds.musicSound:setVolume(0.1)
+    sounds.musicSound:play()
+    sounds.deathSound:setVolume(0.65)
+    sounds.gameOverSound:setVolume(0.65)
 
     -- generate a grid with snake, stone obstacles and apple
     initializeGrid()
@@ -96,10 +96,10 @@ function love.keypressed(key)
 
     -- mute/unmute music at any time using M key
     if key == 'm' then
-        if Sounds.musicSound:isPlaying() then
-            Sounds.musicSound:pause()
+        if sounds.musicSound:isPlaying() then
+            sounds.musicSound:pause()
         else
-            Sounds.musicSound:play()
+            sounds.musicSound:play()
         end
     end
 
@@ -209,11 +209,11 @@ function love.update(dt)
                     isNewLevel = true
                     clearSnake()
                     initializeSnake()
-                    Sounds.deathSound:play()
+                    sounds.deathSound:play()
                 else
                     -- game over sequence
                     isGameOver = true
-                    Sounds.gameOverSound:play()
+                    sounds.gameOverSound:play()
                 end
 
             -- if snake is eating an apple
@@ -221,7 +221,7 @@ function love.update(dt)
                 -- increase score and generate a new apple
 
                 score = score + 1
-                Sounds.appleSound:play()
+                sounds.appleSound:play()
                 
                 -- function changed to cubic so levels are now changed
                 -- less freuqently which was really annoying
@@ -229,7 +229,7 @@ function love.update(dt)
                 if score > (level + 1) * (level + 1) * level + 5 then
                     -- promote player to the next level
                     level = level + 1
-                    Sounds.newLevelSound:play()
+                    sounds.newLevelSound:play()
                     isNewLevel = true -- display new level screen
 
                     -- increase snake speed
@@ -326,14 +326,14 @@ end
 
 function drawStartScreen()
     -- display game start screen
-    love.graphics.setFont(Fonts.hugeFont)
+    love.graphics.setFont(fonts.hugeFont)
     love.graphics.printf("SNAKE", 0, WINDOW_HEIGHT / 2 - 64, WINDOW_WIDTH, "center")
 
-    love.graphics.setFont(Fonts.largeFont)
+    love.graphics.setFont(fonts.largeFont)
     love.graphics.printf("Press Enter to start", 0,
                          WINDOW_HEIGHT / 2 + 64, WINDOW_WIDTH, "center")
                          
-    love.graphics.setFont(Fonts.normalFont)
+    love.graphics.setFont(fonts.normalFont)
     love.graphics.printf("Press L to switch drawing lines", 0,
                          WINDOW_HEIGHT / 2 + 168, WINDOW_WIDTH, "center")
     love.graphics.printf("Press M to mute music", 0,
@@ -343,9 +343,9 @@ end
 function drawGameOver()
     -- display game over screen
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.setFont(Fonts.hugeFont)
+    love.graphics.setFont(fonts.hugeFont)
     love.graphics.printf("GAME OVER", 0, WINDOW_HEIGHT / 2 - 64, WINDOW_WIDTH, "center")
-    love.graphics.setFont(Fonts.largeFont)
+    love.graphics.setFont(fonts.largeFont)
     love.graphics.printf("Press Enter to restart", 0,
                          WINDOW_HEIGHT / 2 + 64, WINDOW_WIDTH, "center")
 end
@@ -353,17 +353,17 @@ end
 function drawNewLevel()
     -- display game over screen
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.setFont(Fonts.hugeFont)
+    love.graphics.setFont(fonts.hugeFont)
     love.graphics.printf("LEVEL " .. tostring(level), 0,
                          WINDOW_HEIGHT / 2 - 64, WINDOW_WIDTH, "center")
-    love.graphics.setFont(Fonts.largeFont)
+    love.graphics.setFont(fonts.largeFont)
     love.graphics.printf("Press Space to start", 0,
                          WINDOW_HEIGHT / 2 + 64, WINDOW_WIDTH, "center")
 end
 
 function drawStats()
     -- display score, level and remaining lives
-    love.graphics.setFont(Fonts.largeFont)
+    love.graphics.setFont(fonts.largeFont)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print("Score: " .. tostring(score), 10, 10)
     love.graphics.printf("Level: " .. tostring(level), -10, 10, WINDOW_WIDTH, "right")
@@ -372,7 +372,7 @@ function drawStats()
 
     -- draw lost lives images
     for i = 0, 2 do
-        drawQuadImage(Img.heartImg,
+        drawQuadImage(img.heartImg,
                       WINDOW_WIDTH / 2 - 1.7 * TILE_SIZE+ i * TILE_SIZE + 5 * i,
                       TILE_SIZE / 2, 0, 0.25)
     end
@@ -380,16 +380,16 @@ function drawStats()
     -- draw remaining lives images
     -- (same img with different transparency and also overlapping with lost lives)
     for i = 0, lives - 1 do
-        drawQuadImage(Img.heartImg,
+        drawQuadImage(img.heartImg,
                       WINDOW_WIDTH / 2 - 1.7 * TILE_SIZE + i * TILE_SIZE + 5 * i,
                       TILE_SIZE / 2, 0, 0.5)
     end
 
     -- draw music on/off image
-    if Sounds.musicSound:isPlaying() then
-        drawQuadImage(Img.musicOnImg, WINDOW_WIDTH - 3 * TILE_SIZE, 2 * TILE_SIZE, 0, 0.75)
+    if sounds.musicSound:isPlaying() then
+        drawQuadImage(img.musicOnImg, WINDOW_WIDTH - 3 * TILE_SIZE, 2 * TILE_SIZE, 0, 0.75)
     else
-        drawQuadImage(Img.musicOffImg, WINDOW_WIDTH - 3 * TILE_SIZE, 2 * TILE_SIZE, 0, 0.75)
+        drawQuadImage(img.musicOffImg, WINDOW_WIDTH - 3 * TILE_SIZE, 2 * TILE_SIZE, 0, 0.75)
     end
 end
 
@@ -407,43 +407,43 @@ function drawGrid()
                 drawTile("line", (x - 1) * TILE_SIZE, (y - 1) * TILE_SIZE)
 
             elseif tileGrid[y][x] == TILE_APPLE then
-                drawTileImage(Img.appleImg, x, y)
+                drawTileImage(img.appleImg, x, y)
 
             elseif tileGrid[y][x] == TILE_STONE_1 then
-                drawTileImage(Img.stone1Img, x, y)
+                drawTileImage(img.stone1Img, x, y)
 
             elseif tileGrid[y][x] == TILE_STONE_2 then
-                drawTileImage(Img.stone2Img, x, y)
+                drawTileImage(img.stone2Img, x, y)
             
             elseif tileGrid[y][x] == TILE_STONE_3 then
-                drawTileImage(Img.stone3Img, x, y)
+                drawTileImage(img.stone3Img, x, y)
 
             elseif tileGrid[y][x] == TILE_STONE_4 then
-                drawTileImage(Img.stone4Img, x, y)
+                drawTileImage(img.stone4Img, x, y)
 
             elseif tileGrid[y][x] == TILE_STONE_5 then
-                drawTileImage(Img.stone5Img, x, y)
+                drawTileImage(img.stone5Img, x, y)
 
             elseif tileGrid[y][x] == TILE_SNAKE_HEAD then
-                drawSnake(Img.snakeHeadImg, x, y, rotationGrid[y][x])
+                drawSnake(img.snakeHeadImg, x, y, rotationGrid[y][x])
 
             elseif tileGrid[y][x] == TILE_SNAKE_BODY then
-                drawSnake(Img.snakeBodyImg, x, y, rotationGrid[y][x])
+                drawSnake(img.snakeBodyImg, x, y, rotationGrid[y][x])
 
             elseif tileGrid[y][x] == TILE_SNAKE_TAIL then
-                drawSnake(Img.snakeTailImg, x, y, snakeTiles[#snakeTiles - 1][3])
+                drawSnake(img.snakeTailImg, x, y, snakeTiles[#snakeTiles - 1][3])
 
             elseif tileGrid[y][x] == TILE_SNAKE_TURN_1 then
-                drawTileImage(Img.snakeTurn1Img, x, y)
+                drawTileImage(img.snakeTurn1Img, x, y)
 
             elseif tileGrid[y][x] == TILE_SNAKE_TURN_2 then
-                drawTileImage(Img.snakeTurn2Img, x, y)
+                drawTileImage(img.snakeTurn2Img, x, y)
 
             elseif tileGrid[y][x] == TILE_SNAKE_TURN_3 then
-                drawTileImage(Img.snakeTurn3Img, x, y)
+                drawTileImage(img.snakeTurn3Img, x, y)
 
             elseif tileGrid[y][x] == TILE_SNAKE_TURN_4 then
-                drawTileImage(Img.snakeTurn4Img, x, y)
+                drawTileImage(img.snakeTurn4Img, x, y)
             end
         end
     end
@@ -460,7 +460,7 @@ function drawQuadImage(quad, x, y, rotation, transparency)
     rotation = rotation or 0 -- default value is 0
     transparency = transparency or 1 -- default value is 1
     love.graphics.setColor(1, 1, 1, transparency)
-    love.graphics.draw(Img.spriteSheet, quad, x, y, rotation)
+    love.graphics.draw(img.spriteSheet, quad, x, y, rotation)
 end
 
 function drawTileImage(image, x, y)
